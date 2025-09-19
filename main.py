@@ -9,11 +9,11 @@ from ads import get_ads
 # =========================
 # Environment Variables
 # =========================
-API_ID = int(os.environ.get("API_ID", "123456"))
-API_HASH = os.environ.get("API_HASH", "your_api_hash")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "your_bot_token")
-USER_SESSION_STRING = os.environ.get("USER_SESSION_STRING", "your_session_string")
-CHANNEL = os.environ.get("CHANNEL", "@your_channel_username")
+API_ID = int(os.environ.get("API_ID", "24776633"))
+API_HASH = os.environ.get("API_HASH", "57b1f632044b4e718f5dce004a988d69")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8397257911:AAHVsXuyAU8gcK4VmJYz9mqsmZxfcOMOvGs")
+USER_SESSION_STRING = os.environ.get("USER_SESSION_STRING", "BQF6D7kAk_w2Vzb9xvOK6mcVaB7q4n5RTO31y509fISmec660LSHGE0RE54sSOvDCqImKn0K-pP1yMdrgqeT2trVTkrfmTzMgNVsI-7mCkBLYA1hvqKc_xuZ_dVYmPb2zm7_2QSbjZw8WNjfUss3L2JImLTcwt1IU9W7xNbQ6qcFGYNtub4DN7490YB-cl84lTpvszLLgmdZwZUjppxGo27V-T9LbosXQ8SSFsqJB-JOFcLE8NCS2Ns20GnfrrdiLBW3bM5bi3LmC8qDXVssqO1lPfym2tC6B3FiX4PtVh3lUgDexfW2OvuUL9DukEOLF5VqXDlMus9fdnOeUACALt1Zd5qS-wAAAAGrbKNNAA")
+CHANNEL = os.environ.get("CHANNEL", "1002995070932")
 
 # =========================
 # Clients
