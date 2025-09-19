@@ -3,23 +3,33 @@ import re
 from datetime import datetime, timedelta
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import os
 from ads import get_ads
 
 # =========================
-# Environment Variables
+# Fixed Config (No Env Needed)
 # =========================
-API_ID = int(os.environ.get("API_ID", "24776633"))
-API_HASH = os.environ.get("API_HASH", "57b1f632044b4e718f5dce004a988d69")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "8397257911:AAHVsXuyAU8gcK4VmJYz9mqsmZxfcOMOvGs")
-USER_SESSION_STRING = os.environ.get("USER_SESSION_STRING", "BQF6D7kAk_w2Vzb9xvOK6mcVaB7q4n5RTO31y509fISmec660LSHGE0RE54sSOvDCqImKn0K-pP1yMdrgqeT2trVTkrfmTzMgNVsI-7mCkBLYA1hvqKc_xuZ_dVYmPb2zm7_2QSbjZw8WNjfUss3L2JImLTcwt1IU9W7xNbQ6qcFGYNtub4DN7490YB-cl84lTpvszLLgmdZwZUjppxGo27V-T9LbosXQ8SSFsqJB-JOFcLE8NCS2Ns20GnfrrdiLBW3bM5bi3LmC8qDXVssqO1lPfym2tC6B3FiX4PtVh3lUgDexfW2OvuUL9DukEOLF5VqXDlMus9fdnOeUACALt1Zd5qS-wAAAAGrbKNNAA")
-CHANNEL = os.environ.get("CHANNEL", "1002995070932")
+API_ID = 24776633
+API_HASH = "57b1f632044b4e718f5dce004a988d69"
+BOT_TOKEN = "8397257911:AAHVsXuyAU8gcK4VmJYz9mqsmZxfcOMOvGs"
+USER_SESSION_STRING = "BQF6D7kAk_w2Vzb9xvOK6mcVaB7q4n5RTO31y509fISmec660LSHGE0RE54sSOvDCqImKn0K-pP1yMdrgqeT2trVTkrfmTzMgNVsI-7mCkBLYA1hvqKc_xuZ_dVYmPb2zm7_2QSbjZw8WNjfUss3L2JImLTcwt1IU9W7xNbQ6qcFGYNtub4DN7490YB-cl84lTpvszLLgmdZwZUjppxGo27V-T9LbosXQ8SSFsqJB-JOFcLE8NCS2Ns20GnfrrdiLBW3bM5bi3LmC8qDXVssqO1lPfym2tC6B3FiX4PtVh3lUgDexfW2OvuUL9DukEOLF5VqXDlMus9fdnOeUACALt1Zd5qS-wAAAAGrbKNNAA"
+CHANNEL = "-1002995070932"  # Channel ID (must be with -100)
 
 # =========================
 # Clients
 # =========================
-bot = Client("bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
-user = Client("user", api_id=API_ID, api_hash=API_HASH, session_name=USER_SESSION_STRING)
+bot = Client(
+    "bot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
+)
+
+user = Client(
+    "user",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=USER_SESSION_STRING
+)
 
 # =========================
 # Video Expiry Storage
@@ -97,8 +107,10 @@ async def season_handler(client, callback_query):
     buttons = [[InlineKeyboardButton(f"{msg.caption or 'Episode'}", callback_data=f"episode_{msg.id}")]
                for msg in results]
 
-    await callback_query.message.edit(f"🎬 Season {season} Episodes:",
-                                      reply_markup=InlineKeyboardMarkup(buttons))
+    await callback_query.message.edit(
+        f"🎬 Season {season} Episodes:",
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 # =========================
 # Episode → Intermediate + Video + Expiry + Ads
@@ -117,16 +129,18 @@ async def episode_handler(client, callback_query):
 
     # Dynamic ads links
     links = get_ads()
-    verify_url = links["verify"]
-    tutorial_url = links["tutorial"]
+    verify_url = links.get("verify", "https://example.com")
+    tutorial_url = links.get("tutorial", "https://example.com")
 
     btn = [
         [InlineKeyboardButton("✅ Verify Link", url=verify_url)],
         [InlineKeyboardButton("📖 Tutorial", url=tutorial_url)],
         [InlineKeyboardButton("📋 Copy Verify Link", url=verify_url)]
     ]
-    await callback_query.message.edit(f"🔒 {msg.caption or 'Episode'}\n\nPlease verify to get the video.",
-                                      reply_markup=InlineKeyboardMarkup(btn))
+    await callback_query.message.edit(
+        f"🔒 {msg.caption or 'Episode'}\n\nPlease verify to get the video.",
+        reply_markup=InlineKeyboardMarkup(btn)
+    )
 
     # Send video (forward-protected)
     async with user:
